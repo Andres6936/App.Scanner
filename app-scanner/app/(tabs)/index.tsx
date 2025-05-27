@@ -20,6 +20,25 @@ export default function HomeScreen() {
         enabled: enabledScanner,
     })
 
+    const showDialog = async () => {
+        if (!scanningResult) return;
+
+        await NiceModal.show(ModalAddItem, {
+            onConfirm: async ({values}) => {
+                await db.insert(ProductsTable).values({
+                    SKU: scanningResult.data,
+                    TypeBarCode: scanningResult.type,
+                    Name: values.Name,
+                    Amount: values.Amount,
+                    Value: values.Value,
+                    Currency: TypeCurrency.COP,
+                })
+            },
+        } satisfies ModalAddItemProps)
+
+        setEnabledScanner(false);
+    }
+
     if (!permission) {
         // Camera permissions are still loading.
         return <View />;
@@ -48,25 +67,7 @@ export default function HomeScreen() {
             <ScannerActions
                 onScan={async () => {
                     setEnabledScanner(true);
-
-                    setTimeout(async () => {
-                        if (!scanningResult) return;
-
-                        await NiceModal.show(ModalAddItem, {
-                            onConfirm: async ({values}) => {
-                                await db.insert(ProductsTable).values({
-                                    SKU: scanningResult.data,
-                                    TypeBarCode: scanningResult.type,
-                                    Name: values.Name,
-                                    Amount: values.Amount,
-                                    Value: values.Value,
-                                    Currency: TypeCurrency.COP,
-                                })
-                            },
-                        } satisfies ModalAddItemProps)
-
-                        setEnabledScanner(false);
-                    }, 1_000);
+                    setTimeout(showDialog, 1_000);
                 }}
                 onAdd={() => {
 
