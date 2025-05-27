@@ -1,11 +1,13 @@
 import {Button, ButtonProps} from "tamagui";
 
-type Props = ButtonProps;
+type Props = ButtonProps & {
+    isScanning: boolean,
+};
 
 export function ScannerButton(props: Props) {
     return (
         <Button flex={1} theme='accent' {...props}>
-            Escanear
+            {props.isScanning ? 'Escanenado ...' : 'Escanear'}
         </Button>
     )
 }

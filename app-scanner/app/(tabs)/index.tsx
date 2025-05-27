@@ -11,8 +11,9 @@ import {TypeCurrency} from "@/constants/Types";
 import {ScannerActions} from "@/components/scanner/ScannerActions";
 
 export default function HomeScreen() {
-    const [enabledScanner, setEnabledScanner] = useState(false);
     const [permission, requestPermission] = useCameraPermissions();
+
+    const [enabledScanner, setEnabledScanner] = useState(false);
     const [scanningResult, setScanningResult] = useState<BarcodeScanningResult | null>(null);
 
     const throttlerSetScanningResult = useThrottler(setScanningResult, {
@@ -22,21 +23,25 @@ export default function HomeScreen() {
 
     const showDialog = async () => {
         if (!scanningResult) return;
+        try {
+            await NiceModal.show(ModalAddItem, {
+                onConfirm: async ({values}) => {
+                    await db.insert(ProductsTable).values({
+                        SKU: scanningResult.data,
+                        TypeBarCode: scanningResult.type,
+                        Name: values.Name,
+                        Amount: values.Amount,
+                        Value: values.Value,
+                        Currency: TypeCurrency.COP,
+                    })
+                },
+            } satisfies ModalAddItemProps)
+        } catch (e) {
 
-        await NiceModal.show(ModalAddItem, {
-            onConfirm: async ({values}) => {
-                await db.insert(ProductsTable).values({
-                    SKU: scanningResult.data,
-                    TypeBarCode: scanningResult.type,
-                    Name: values.Name,
-                    Amount: values.Amount,
-                    Value: values.Value,
-                    Currency: TypeCurrency.COP,
-                })
-            },
-        } satisfies ModalAddItemProps)
-
-        setEnabledScanner(false);
+        } finally {
+            setEnabledScanner(false);
+            setScanningResult(null);
+        }
     }
 
     if (!permission) {
@@ -65,6 +70,7 @@ export default function HomeScreen() {
                 }}
             />
             <ScannerActions
+                isScanning={enabledScanner}
                 onScan={async () => {
                     setEnabledScanner(true);
                     setTimeout(showDialog, 1_000);
