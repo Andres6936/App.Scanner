@@ -130,10 +130,23 @@ const Table = () => {
 
     return (
         <YStack gap="$2">
+            <Header/>
             {data.map(it => (
                 <Item key={it.SKU} model={it}/>
             ))}
         </YStack>
+    )
+}
+
+const Header = () => {
+    return (
+        <XStack px="$2" rounded="$2" borderWidth={1} borderColor="$borderColor">
+            <Paragraph flex={3}>Nombre</Paragraph>
+            <XStack flex={2} justify="flex-end">
+                <Paragraph flex={1} textAlign="center" textWrap="nowrap">Valor</Paragraph>
+                <Paragraph flex={1} textAlign="center">Cantidad</Paragraph>
+            </XStack>
+        </XStack>
     )
 }
 
@@ -144,9 +157,9 @@ type ItemProps = {
 const Item = (props: ItemProps) => {
     return (
         <XStack px="$2" rounded="$2" borderWidth={1} borderColor="$borderColor">
-            <Paragraph flex={2}>{props.model.Name}</Paragraph>
-            <XStack flex={1} justify="flex-end">
-                <Paragraph flex={2} textAlign="center" textWrap="nowrap">{props.model.Value} COP</Paragraph>
+            <Paragraph flex={3}>{props.model.Name}</Paragraph>
+            <XStack flex={2} justify="flex-end">
+                <Paragraph flex={1} textAlign="center" textWrap="nowrap">{props.model.Value} COP</Paragraph>
                 <Paragraph flex={1} textAlign="center">{props.model.Amount}</Paragraph>
             </XStack>
         </XStack>
