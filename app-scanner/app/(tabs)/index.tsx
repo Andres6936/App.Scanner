@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import NiceModal from "@ebay/nice-modal-react";
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {BarcodeScanningResult, CameraView, useCameraPermissions} from 'expo-camera';
@@ -21,28 +21,31 @@ export default function HomeScreen() {
         enabled: enabledScanner,
     })
 
-    const showDialog = async () => {
-        if (!scanningResult) return;
-        try {
-            await NiceModal.show(ModalAddItem, {
-                onConfirm: async ({values}) => {
-                    await db.insert(ProductsTable).values({
-                        SKU: scanningResult.data,
-                        TypeBarCode: scanningResult.type,
-                        Name: values.Name,
-                        Amount: values.Amount,
-                        Value: values.Value,
-                        Currency: TypeCurrency.COP,
-                    })
-                },
-            } satisfies ModalAddItemProps)
-        } catch (e) {
+    useEffect(() => {
+        (async () => {
+            if (!scanningResult || !enabledScanner) return;
+            try {
+                setEnabledScanner(false);
+                await NiceModal.show(ModalAddItem, {
+                    onConfirm: async ({values}) => {
+                        await db.insert(ProductsTable).values({
+                            SKU: scanningResult.data,
+                            TypeBarCode: scanningResult.type,
+                            Name: values.Name,
+                            Amount: values.Amount,
+                            Value: values.Value,
+                            Currency: TypeCurrency.COP,
+                        })
+                    },
+                } satisfies ModalAddItemProps)
+            } catch (e) {
 
-        } finally {
-            setEnabledScanner(false);
-            setScanningResult(null);
-        }
-    }
+            } finally {
+                setEnabledScanner(false);
+                setScanningResult(null);
+            }
+        })()
+    }, [scanningResult, enabledScanner]);
 
     if (!permission) {
         // Camera permissions are still loading.
@@ -71,10 +74,8 @@ export default function HomeScreen() {
             />
             <ScannerActions
                 isScanning={enabledScanner}
-                onScan={async () => {
-                    setEnabledScanner(true);
-                    setTimeout(showDialog, 1_000);
-                }}
+                onScan={() => setEnabledScanner(true)}
+                onCancelScan={() => setEnabledScanner(false)}
                 onAdd={() => {
 
                 }}
