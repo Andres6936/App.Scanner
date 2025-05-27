@@ -1,6 +1,7 @@
 import {Image, Platform, StyleSheet} from 'react-native';
 import {Button, Paragraph, XStack, YStack} from "tamagui";
 import NiceModal from "@ebay/nice-modal-react";
+import {useQuery} from "@tanstack/react-query";
 
 import {Collapsible} from '@/components/Collapsible';
 import {ExternalLink} from '@/components/ExternalLink';
@@ -9,6 +10,8 @@ import {ThemedText} from '@/components/ThemedText';
 import {ThemedView} from '@/components/ThemedView';
 import {IconSymbol} from '@/components/ui/IconSymbol';
 import EditProductModal from "@/modals/AlertShowcase";
+import {db} from "@/services/sqlite/createClient";
+import {ProductsTable} from "@/services/sqlite/schema";
 
 export default function TabTwoScreen() {
     const onEditEvent = async () => {
@@ -99,18 +102,39 @@ export default function TabTwoScreen() {
                 })}
             </Collapsible>
 
-            <YStack gap="$2">
-                <Item/>
-                <Item/>
-                <Item/>
-                <Item/>
-            </YStack>
-
+            <Table/>
             <Button onPress={onEditEvent}>
                 <Paragraph>Editar</Paragraph>
             </Button>
         </ParallaxScrollView>
     );
+}
+
+const Table = () => {
+    const {data, isLoading} = useQuery({
+        queryKey: ['/products'],
+        queryFn: async () => db.select().from(ProductsTable)
+    })
+
+    if (isLoading) {
+        return (
+            <Paragraph>Cargando ...</Paragraph>
+        )
+    }
+
+    if (!data) {
+        return (
+            <Paragraph>No hay datos</Paragraph>
+        )
+    }
+
+    return (
+        <YStack gap="$2">
+            {data.map(it => (
+                <Item key={it.SKU}/>
+            ))}
+        </YStack>
+    )
 }
 
 const Item = () => {

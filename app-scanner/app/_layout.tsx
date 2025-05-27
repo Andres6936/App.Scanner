@@ -11,11 +11,15 @@ import {useDrizzleStudio} from "expo-drizzle-studio-plugin";
 import {useMigrations} from 'drizzle-orm/expo-sqlite/migrator';
 import NiceModal from "@ebay/nice-modal-react";
 import {SafeAreaProvider} from "react-native-safe-area-context";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 import {useColorScheme} from '@/hooks/useColorScheme';
 import {config} from "@/tamagui.config";
 import migrations from '@/drizzle/migrations';
 import {db, scannerConnection} from "@/services/sqlite/createClient";
+
+// Create a client
+const queryClient = new QueryClient()
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -60,11 +64,13 @@ export default function RootLayout() {
                 <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
                     <PortalProvider shouldAddRootHost>
                         <NiceModal.Provider>
-                            <Stack>
-                                <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-                                <Stack.Screen name="+not-found"/>
-                            </Stack>
-                            <StatusBar style="auto"/>
+                            <QueryClientProvider client={queryClient}>
+                                <Stack>
+                                    <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+                                    <Stack.Screen name="+not-found"/>
+                                </Stack>
+                                <StatusBar style="auto"/>
+                            </QueryClientProvider>
                         </NiceModal.Provider>
                     </PortalProvider>
                 </ThemeProvider>
