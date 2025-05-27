@@ -24,6 +24,8 @@ export default function HomeScreen() {
     useEffect(() => {
         (async () => {
             if (!scanningResult || !enabledScanner) return;
+            if (scanningResult.data.startsWith("http://")) return;
+            if (scanningResult.data.startsWith("https://")) return;
             try {
                 setEnabledScanner(false);
                 await NiceModal.show(ModalAddItem, {
