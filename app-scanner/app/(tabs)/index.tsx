@@ -77,7 +77,10 @@ export default function HomeScreen() {
             <ScannerActions
                 isScanning={enabledScanner}
                 onScan={() => setEnabledScanner(true)}
-                onCancelScan={() => setEnabledScanner(false)}
+                onCancelScan={() => {
+                    setEnabledScanner(false);
+                    setScanningResult(null);
+                }}
                 onAdd={() => {
 
                 }}
