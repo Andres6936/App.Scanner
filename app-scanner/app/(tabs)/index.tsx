@@ -87,7 +87,7 @@ export default function HomeScreen() {
 
                 }}
             />
-            {scanningResult && (
+            {(scanningResult && enabledScanner) && (
                 <Stack
                     position="absolute"
                     left={scanningResult.bounds.origin.y}
