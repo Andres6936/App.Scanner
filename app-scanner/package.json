@@ -23,7 +23,6 @@
     "@tamagui/lucide-icons": "^1.125.34",
     "@tamagui/metro-plugin": "^1.126.4",
     "@tanstack/react-form": "^1.8.0",
-    "@tanstack/react-pacer": "^0.2.0",
     "@tanstack/react-query": "^5.74.7",
     "@tanstack/react-table": "^8.21.3",
     "drizzle-orm": "^0.41.0",

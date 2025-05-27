@@ -12,7 +12,6 @@
         "@tamagui/lucide-icons": "^1.125.34",
         "@tamagui/metro-plugin": "^1.126.4",
         "@tanstack/react-form": "^1.8.0",
-        "@tanstack/react-pacer": "^0.2.0",
         "@tanstack/react-query": "^5.74.7",
         "@tanstack/react-table": "^8.21.3",
         "drizzle-orm": "^0.41.0",
@@ -55,6 +54,9 @@
         "typescript": "^5.3.3",
       },
     },
+  },
+  "overrides": {
+    "@tanstack/pacer": "^0.8.0",
   },
   "packages": {
     "@0no-co/graphql.web": ["@0no-co/graphql.web@1.1.2", "", { "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0" }, "optionalPeers": ["graphql"] }, "sha512-N2NGsU5FLBhT8NZ+3l2YrzZSHITjNXNuDhC4iDiikv0IujaJ0Xc6xIxQZ/Ek3Cb+rgPjnLHYyJm11tInuJn+cw=="],
@@ -753,13 +755,9 @@
 
     "@tanstack/form-core": ["@tanstack/form-core@1.8.0", "", { "dependencies": { "@tanstack/store": "^0.7.0" } }, "sha512-7ZmoCZoMYrep8Ta4Vjc4czT4M8mspEL3mkXQYUydshWCLeDB7otnwy0v6LR/xdvdzKSEodgsIWQibPpgykLoWA=="],
 
-    "@tanstack/pacer": ["@tanstack/pacer@0.2.0", "", {}, "sha512-fUJs3NpSwtAL/tfq8kuYdgvm9HbbJvHsOG6aHY2dFDfff0NBFNwjvyGreWZZRPs2zgoIbr4nOk+rRV7aQgmf+A=="],
-
     "@tanstack/query-core": ["@tanstack/query-core@5.74.7", "", {}, "sha512-X3StkN/Y6KGHndTjJf8H8th7AX4bKfbRpiVhVqevf0QWlxl6DhyJ0TYG3R0LARa/+xqDwzU9mA4pbJxzPCI29A=="],
 
     "@tanstack/react-form": ["@tanstack/react-form@1.8.0", "", { "dependencies": { "@tanstack/form-core": "1.8.0", "@tanstack/react-store": "^0.7.0", "decode-formdata": "^0.9.0", "devalue": "^5.1.1" }, "peerDependencies": { "@tanstack/react-start": "^1.112.0", "react": "^17.0.0 || ^18.0.0 || ^19.0.0", "vinxi": "^0.5.0" }, "optionalPeers": ["@tanstack/react-start", "vinxi"] }, "sha512-FS3AJ+qnKlne1JmgWh4tKw5Ze23+3LA1cqbtxTD9uBd4+UFzcTkT7BiBNN/rbQFEMGFfvDvlH5TwU20IcW8/Lw=="],
-
-    "@tanstack/react-pacer": ["@tanstack/react-pacer@0.2.0", "", { "dependencies": { "@tanstack/pacer": "0.2.0" }, "peerDependencies": { "react": ">=16.8", "react-dom": ">=16.8" } }, "sha512-KU5GtjkKSeNdYCilen5Dc+Pu/6BPQbsQshKrUUjrg7URyJIiGBCz6ZZFre1QjDz/aeUeqUJWMWSm+2Dsh64v+w=="],
 
     "@tanstack/react-query": ["@tanstack/react-query@5.74.7", "", { "dependencies": { "@tanstack/query-core": "5.74.7" }, "peerDependencies": { "react": "^18 || ^19" } }, "sha512-u4o/RIWnnrq26orGZu2NDPwmVof1vtAiiV6KYUXd49GuK+8HX+gyxoAYqIaZogvCE1cqOuZAhQKcrKGYGkrLxg=="],
 

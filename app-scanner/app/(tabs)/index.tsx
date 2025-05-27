@@ -2,7 +2,7 @@ import {useState} from "react";
 import NiceModal from "@ebay/nice-modal-react";
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {BarcodeScanningResult, CameraView, useCameraPermissions} from 'expo-camera';
-import {useThrottler} from '@tanstack/react-pacer'
+import {useThrottler} from '@/own-pacer/throttler/useThrottler'
 
 import ModalAddItem, {Props as ModalAddItemProps} from "@/modals/ModalAddItem";
 import {db} from "@/services/sqlite/createClient";
