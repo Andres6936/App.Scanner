@@ -44,35 +44,34 @@ export default function HomeScreen() {
                     // throttled state update
                     throttlerSetScanningResult.maybeExecute(scanningResult)
                 }}
-            >
-                <ScannerActions
-                    onScan={async () => {
-                        setEnabledScanner(true);
+            />
+            <ScannerActions
+                onScan={async () => {
+                    setEnabledScanner(true);
 
-                        setTimeout(async () => {
-                            if (!scanningResult) return;
+                    setTimeout(async () => {
+                        if (!scanningResult) return;
 
-                            await NiceModal.show(ModalAddItem, {
-                                onConfirm: async ({values}) => {
-                                    await db.insert(ProductsTable).values({
-                                        SKU: scanningResult.data,
-                                        TypeBarCode: scanningResult.type,
-                                        Name: values.Name,
-                                        Amount: values.Amount,
-                                        Value: values.Value,
-                                        Currency: TypeCurrency.COP,
-                                    })
-                                },
-                            } satisfies ModalAddItemProps)
+                        await NiceModal.show(ModalAddItem, {
+                            onConfirm: async ({values}) => {
+                                await db.insert(ProductsTable).values({
+                                    SKU: scanningResult.data,
+                                    TypeBarCode: scanningResult.type,
+                                    Name: values.Name,
+                                    Amount: values.Amount,
+                                    Value: values.Value,
+                                    Currency: TypeCurrency.COP,
+                                })
+                            },
+                        } satisfies ModalAddItemProps)
 
-                            setEnabledScanner(false);
-                        }, 1_000);
-                    }}
-                    onAdd={() => {
+                        setEnabledScanner(false);
+                    }, 1_000);
+                }}
+                onAdd={() => {
 
-                    }}
-                />
-            </CameraView>
+                }}
+            />
         </View>
     );
 }
