@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
+import {Stack} from 'tamagui'
 import NiceModal from "@ebay/nice-modal-react";
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {BarcodeScanningResult, CameraView, useCameraPermissions} from 'expo-camera';
-import {useThrottler} from '@/own-pacer/throttler/useThrottler'
 
+
+import {useThrottler} from '@/own-pacer/throttler/useThrottler'
 import ModalAddItem, {Props as ModalAddItemProps} from "@/modals/ModalAddItem";
 import {db} from "@/services/sqlite/createClient";
 import {ProductsTable} from "@/services/sqlite/schema";
@@ -85,6 +87,19 @@ export default function HomeScreen() {
 
                 }}
             />
+            {scanningResult && (
+                <Stack
+                    position="absolute"
+                    left={scanningResult.bounds.origin.y}
+                    top={scanningResult.bounds.origin.x}
+                    width={scanningResult.bounds.size.width}
+                    height={scanningResult.bounds.size.height}
+                    backgroundColor="transparent"
+                    borderColor="yellow"
+                    borderWidth={1}
+                    borderRadius="$4"
+                />
+            )}
         </View>
     );
 }
@@ -93,6 +108,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        position: 'relative',
     },
     message: {
         textAlign: 'center',
