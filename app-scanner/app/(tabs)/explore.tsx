@@ -131,19 +131,23 @@ const Table = () => {
     return (
         <YStack gap="$2">
             {data.map(it => (
-                <Item key={it.SKU}/>
+                <Item key={it.SKU} model={it}/>
             ))}
         </YStack>
     )
 }
 
-const Item = () => {
+type ItemProps = {
+    model: typeof ProductsTable.$inferSelect
+}
+
+const Item = (props: ItemProps) => {
     return (
         <XStack px="$2" rounded="$2" borderWidth={1} borderColor="$borderColor">
-            <Paragraph flex={2}>Arroz Diana</Paragraph>
+            <Paragraph flex={2}>{props.model.Name}</Paragraph>
             <XStack flex={1} justify="flex-end">
-                <Paragraph flex={2} textAlign="center" textWrap="nowrap">2300 COP</Paragraph>
-                <Paragraph flex={1} textAlign="center">1</Paragraph>
+                <Paragraph flex={2} textAlign="center" textWrap="nowrap">{props.model.Value} COP</Paragraph>
+                <Paragraph flex={1} textAlign="center">{props.model.Amount}</Paragraph>
             </XStack>
         </XStack>
     )
