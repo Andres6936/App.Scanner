@@ -2,14 +2,9 @@ import React from "react";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Alert, Modal, StyleSheet} from "react-native";
 import NiceModal, {useModal} from "@ebay/nice-modal-react";
-import {Button, Form, H6, Input, Label, Spinner, View, XStack, YStack} from "tamagui";
+import {Button, Form, H6, Spinner, View, XStack, YStack} from "tamagui";
 import {useAppForm} from "@/components/form/field/withField";
 
-const getIntegerValueOf = (value: string) => {
-    const parsed = value.replace(/[^0-9]/g, '');
-    const numeric = parseInt(parsed, 10);
-    return isNaN(numeric) ? 0 : numeric;
-}
 
 const defaultValues = {
     Name: "",
@@ -66,44 +61,14 @@ export default NiceModal.create((props: Props) => {
                                 />
 
                                 <XStack gap="$2">
-                                    <form.Field
+                                    <form.AppField
                                         name="Value"
-                                        children={(field) => (
-                                            <YStack flex={1}>
-                                                <Label htmlFor={field.name} lineHeight="$2">
-                                                    Valor
-                                                </Label>
-                                                <Input
-                                                    width="100%"
-                                                    id={field.name}
-                                                    inputMode='numeric'
-                                                    keyboardType='numeric'
-                                                    value={field.state.value.toString()}
-                                                    onBlur={field.handleBlur}
-                                                    onChangeText={(value) => field.handleChange(getIntegerValueOf(value))}
-                                                />
-                                            </YStack>
-                                        )}
+                                        children={(field) => <field.NumericField label="Valor"/>}
                                     />
 
-                                    <form.Field
+                                    <form.AppField
                                         name="Amount"
-                                        children={(field) => (
-                                            <YStack flex={1}>
-                                                <Label htmlFor={field.name} lineHeight="$2">
-                                                    Cantidad
-                                                </Label>
-                                                <Input
-                                                    width="100%"
-                                                    id={field.name}
-                                                    inputMode='numeric'
-                                                    keyboardType='numeric'
-                                                    value={field.state.value.toString()}
-                                                    onBlur={field.handleBlur}
-                                                    onChangeText={(value) => field.handleChange(getIntegerValueOf(value))}
-                                                />
-                                            </YStack>
-                                        )}
+                                        children={(field) => <field.NumericField label="Cantidad"/>}
                                     />
                                 </XStack>
                             </YStack>
