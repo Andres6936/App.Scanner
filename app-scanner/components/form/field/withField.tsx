@@ -1,8 +1,8 @@
 import {AnyFieldMeta, createFormHook, createFormHookContexts} from "@tanstack/react-form";
-import {Input, Label, YStack, YStackProps} from "tamagui";
+import {Input, Label, Paragraph, YStack, YStackProps} from "tamagui";
 import React from "react";
 
-export const {fieldContext, formContext, useFieldContext} =
+export const {fieldContext, formContext, useFieldContext, useFormContext} =
     createFormHookContexts()
 
 export const {useAppForm} = createFormHook({
@@ -12,18 +12,10 @@ export const {useAppForm} = createFormHook({
         TextField,
         NumericField,
     },
-    formComponents: {},
+    formComponents: {
+        FirstErrorMessage,
+    },
 })
-
-export const getFirstErrorMessageOf = <T, >(fieldMeta: T) => {
-    for (let propertyName in fieldMeta) {
-        const property = fieldMeta[propertyName as keyof T] as AnyFieldMeta;
-        if (property.errors.length >= 1) {
-            return property.errors.at(0).message;
-        }
-    }
-    return '';
-}
 
 type TextFieldProps = {
     label: string,
@@ -78,5 +70,28 @@ export function NumericField(props: NumericFieldProps) {
                 onChangeText={(value) => field.handleChange(getIntegerValueOf(value))}
             />
         </YStack>
+    )
+}
+
+const getFirstErrorMessageOf = <T, >(fieldMeta: T) => {
+    for (let propertyName in fieldMeta) {
+        const property = fieldMeta[propertyName as keyof T] as AnyFieldMeta;
+        if (property.errors.length >= 1) {
+            return property.errors.at(0).message;
+        }
+    }
+    return '';
+}
+
+export function FirstErrorMessage() {
+    const form = useFormContext()
+    return (
+        <form.Subscribe
+            selector={(state) => [state.fieldMeta]}
+            children={([fieldMeta]) => {
+                const message = getFirstErrorMessageOf(fieldMeta);
+                return message ? <Paragraph>{message}</Paragraph> : null;
+            }}
+        />
     )
 }
