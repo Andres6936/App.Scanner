@@ -2,7 +2,7 @@ import React from "react";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Alert, Modal, StyleSheet} from "react-native";
 import NiceModal, {useModal} from "@ebay/nice-modal-react";
-import {Button, Form, H6, Spinner, View, XStack, YStack} from "tamagui";
+import {Button, Form, H6, Paragraph, Spinner, View, XStack, YStack} from "tamagui";
 import {useAppForm} from "@/components/form/field/withField";
 
 
@@ -26,7 +26,11 @@ export default NiceModal.create((props: Props) => {
     // Use a hook to manage the modal state
     const modal = useModal();
     const form = useAppForm(({
-        defaultValues: defaultValues,
+        defaultValues: {
+            ...defaultValues,
+            SKU: props.defaultValues.SKU,
+            TypeBarCode: props.defaultValues.TypeBarCode,
+        },
         onSubmit: async ({value}) => {
             const cleanUp = async () => {
                 modal.resolve();
@@ -60,6 +64,9 @@ export default NiceModal.create((props: Props) => {
                         >
                             <H6>Añadir nuevo item</H6>
 
+                            <Paragraph size="$1">SKU: {form.state.values.SKU} -
+                                Tipo: {form.state.values.TypeBarCode}</Paragraph>
+
                             <YStack minWidth="100%" padding="$2" gap="$2">
                                 <form.AppField
                                     name="Name"
@@ -79,28 +86,29 @@ export default NiceModal.create((props: Props) => {
                                 </XStack>
                             </YStack>
 
-                            <form.Subscribe
-                                selector={(state) => [state.canSubmit, state.isSubmitted]}
-                                children={([canSubmit, isSubmitted]) => (
-                                    <Form.Trigger asChild disabled={!canSubmit || isSubmitted}>
-                                        <Button
-                                            minWidth="100%"
-                                            mt="$4"
-                                            icon={isSubmitted ? () => <Spinner/> : undefined}>
-                                            Confirmar
-                                        </Button>
-                                    </Form.Trigger>
-                                )}
-                            />
+                            <XStack mt="$4">
+                                <form.Subscribe
+                                    selector={(state) => [state.canSubmit, state.isSubmitted]}
+                                    children={([canSubmit, isSubmitted]) => (
+                                        <Form.Trigger asChild disabled={!canSubmit || isSubmitted}>
+                                            <Button
+                                                flex={1}
+                                                icon={isSubmitted ? () => <Spinner/> : undefined}>
+                                                Confirmar
+                                            </Button>
+                                        </Form.Trigger>
+                                    )}
+                                />
 
-                            <Button
-                                minWidth="100%"
-                                onPress={() => {
-                                    modal.reject();
-                                    modal.remove();
-                                }}>
-                                Cancelar
-                            </Button>
+                                <Button
+                                    flex={1}
+                                    onPress={() => {
+                                        modal.reject();
+                                        modal.remove();
+                                    }}>
+                                    Cancelar
+                                </Button>
+                            </XStack>
                         </Form>
                     </View>
                 </View>
