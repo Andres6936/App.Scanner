@@ -1,10 +1,9 @@
-import {Image, Platform, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {eq} from "drizzle-orm";
 import {Button, Paragraph, XStack, YStack} from "tamagui";
 import NiceModal from "@ebay/nice-modal-react";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 
-import {Collapsible} from '@/components/Collapsible';
-import {ExternalLink} from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import {ThemedText} from '@/components/ThemedText';
 import {ThemedView} from '@/components/ThemedView';
@@ -30,77 +29,8 @@ export default function TabTwoScreen() {
                 />
             }>
             <ThemedView style={styles.titleContainer}>
-                <ThemedText type="title">Explore</ThemedText>
+                <ThemedText type="title">Productos</ThemedText>
             </ThemedView>
-            <ThemedText>This app includes example code to help you get started.</ThemedText>
-            <Collapsible title="File-based routing">
-                <ThemedText>
-                    This app has two screens:{' '}
-                    <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-                    <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-                </ThemedText>
-                <ThemedText>
-                    The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-                    sets up the tab navigator.
-                </ThemedText>
-                <ExternalLink href="https://docs.expo.dev/router/introduction">
-                    <ThemedText type="link">Learn more</ThemedText>
-                </ExternalLink>
-            </Collapsible>
-            <Collapsible title="Android, iOS, and web support">
-                <ThemedText>
-                    You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-                    <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-                </ThemedText>
-            </Collapsible>
-            <Collapsible title="Images">
-                <ThemedText>
-                    For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-                    <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-                    different screen densities
-                </ThemedText>
-                <Image source={require('@/assets/images/react-logo.png')} style={{alignSelf: 'center'}}/>
-                <ExternalLink href="https://reactnative.dev/docs/images">
-                    <ThemedText type="link">Learn more</ThemedText>
-                </ExternalLink>
-            </Collapsible>
-            <Collapsible title="Custom fonts">
-                <ThemedText>
-                    Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-                    <ThemedText style={{fontFamily: 'SpaceMono'}}>
-                        custom fonts such as this one.
-                    </ThemedText>
-                </ThemedText>
-                <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-                    <ThemedText type="link">Learn more</ThemedText>
-                </ExternalLink>
-            </Collapsible>
-            <Collapsible title="Light and dark mode components">
-                <ThemedText>
-                    This template has light and dark mode support. The{' '}
-                    <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-                    what the user's current color scheme is, and so you can adjust UI colors accordingly.
-                </ThemedText>
-                <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-                    <ThemedText type="link">Learn more</ThemedText>
-                </ExternalLink>
-            </Collapsible>
-            <Collapsible title="Animations">
-                <ThemedText>
-                    This template includes an example of an animated component. The{' '}
-                    <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-                    the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-                    library to create a waving hand animation.
-                </ThemedText>
-                {Platform.select({
-                    ios: (
-                        <ThemedText>
-                            The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-                            component provides a parallax effect for the header image.
-                        </ThemedText>
-                    ),
-                })}
-            </Collapsible>
 
             <Table/>
             <Button onPress={onEditEvent}>
@@ -130,23 +60,10 @@ const Table = () => {
 
     return (
         <YStack gap="$2">
-            <Header/>
             {data.map(it => (
                 <Item key={it.SKU} model={it}/>
             ))}
         </YStack>
-    )
-}
-
-const Header = () => {
-    return (
-        <XStack px="$2" rounded="$2" borderWidth={1} borderColor="$borderColor">
-            <Paragraph flex={3}>Nombre</Paragraph>
-            <XStack flex={2} justify="flex-end">
-                <Paragraph flex={1} textAlign="center" textWrap="nowrap">Valor</Paragraph>
-                <Paragraph flex={1} textAlign="center">Cantidad</Paragraph>
-            </XStack>
-        </XStack>
     )
 }
 
@@ -155,14 +72,40 @@ type ItemProps = {
 }
 
 const Item = (props: ItemProps) => {
+    const queryClient = useQueryClient()
+
+    const onDelete = async () => {
+        await db.delete(ProductsTable).where(eq(ProductsTable.SKU, props.model.SKU))
+        queryClient.invalidateQueries({queryKey: ['/products']})
+    }
+
     return (
-        <XStack px="$2" rounded="$2" borderWidth={1} borderColor="$borderColor">
-            <Paragraph flex={3}>{props.model.Name}</Paragraph>
-            <XStack flex={2} justify="flex-end">
-                <Paragraph flex={1} textAlign="center" textWrap="nowrap">{props.model.Value} COP</Paragraph>
-                <Paragraph flex={1} textAlign="center">{props.model.Amount}</Paragraph>
+        <YStack px="$2" rounded="$2" borderWidth={1} borderColor="$borderColor">
+            <XStack>
+                <YStack flex={3}>
+                    <Paragraph>Nombre</Paragraph>
+                    <Paragraph>{props.model.Name}</Paragraph>
+                </YStack>
+                <XStack flex={2} justify="flex-end">
+                    <YStack flex={1}>
+                        <Paragraph>Valor</Paragraph>
+                        <Paragraph textAlign="center" textWrap="nowrap">{props.model.Value} COP</Paragraph>
+                    </YStack>
+                    <YStack flex={1}>
+                        <Paragraph>Cantidad</Paragraph>
+                        <Paragraph textAlign="center">{props.model.Amount}</Paragraph>
+                    </YStack>
+                </XStack>
             </XStack>
-        </XStack>
+            <XStack>
+                <Button onPress={onDelete}>
+                    Eliminar
+                </Button>
+                <Button>
+                    Editar
+                </Button>
+            </XStack>
+        </YStack>
     )
 }
 
