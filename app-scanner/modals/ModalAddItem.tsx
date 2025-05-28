@@ -7,12 +7,18 @@ import {useAppForm} from "@/components/form/field/withField";
 
 
 const defaultValues = {
+    SKU: "",
+    TypeBarCode: "",
     Name: "",
     Value: 0,
     Amount: 1,
 }
 
 export type Props = {
+    defaultValues: {
+        SKU: string,
+        TypeBarCode: string,
+    },
     onConfirm: (event: { values: typeof defaultValues }) => Promise<void> | void,
 }
 

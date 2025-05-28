@@ -31,6 +31,10 @@ export default function HomeScreen() {
             try {
                 setEnabledScanner(false);
                 await NiceModal.show(ModalAddItem, {
+                    defaultValues: {
+                        SKU: scanningResult.data,
+                        TypeBarCode: scanningResult.type,
+                    },
                     onConfirm: async ({values}) => {
                         await db.insert(ProductsTable).values({
                             SKU: scanningResult.data,
@@ -53,6 +57,10 @@ export default function HomeScreen() {
 
     const onAdd = async () => {
         await NiceModal.show(ModalAddItem, {
+            defaultValues: {
+                SKU: "AAA",
+                TypeBarCode: "AAA",
+            },
             onConfirm: async ({values}) => {
                 await db.insert(ProductsTable).values({
                     SKU: "AAA",
