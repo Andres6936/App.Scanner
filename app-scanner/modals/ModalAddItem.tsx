@@ -114,6 +114,15 @@ export default NiceModal.create((props: Props) => {
                             </YStack>
 
                             <XStack mt="$4">
+                                <Button
+                                    flex={1}
+                                    onPress={() => {
+                                        modal.reject();
+                                        modal.remove();
+                                    }}>
+                                    Cancelar
+                                </Button>
+
                                 <form.Subscribe
                                     selector={(state) => [state.canSubmit, state.isSubmitted]}
                                     children={([canSubmit, isSubmitted]) => (
@@ -126,15 +135,6 @@ export default NiceModal.create((props: Props) => {
                                         </Form.Trigger>
                                     )}
                                 />
-
-                                <Button
-                                    flex={1}
-                                    onPress={() => {
-                                        modal.reject();
-                                        modal.remove();
-                                    }}>
-                                    Cancelar
-                                </Button>
                             </XStack>
                         </Form>
                     </View>
