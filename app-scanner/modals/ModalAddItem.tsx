@@ -5,7 +5,7 @@ import NiceModal, {useModal} from "@ebay/nice-modal-react";
 import {Button, Form, H6, Paragraph, Spinner, View, XStack, YStack} from "tamagui";
 import * as v from 'valibot';
 
-import {useAppForm} from "@/components/form/field/withField";
+import {getFirstErrorMessageOf, useAppForm} from "@/components/form/field/withField";
 
 
 const ProductSchema = v.object({
@@ -125,6 +125,14 @@ export default NiceModal.create((props: Props) => {
                                     />
                                 </XStack>
                             </YStack>
+
+                            <form.Subscribe
+                                selector={(state) => [state.fieldMeta]}
+                                children={([fieldMeta]) => {
+                                    const message = getFirstErrorMessageOf(fieldMeta);
+                                    return message ? <Paragraph>{message}</Paragraph> : null;
+                                }}
+                            />
 
                             <XStack mt="$4">
                                 <Button

@@ -1,4 +1,4 @@
-import {createFormHook, createFormHookContexts} from "@tanstack/react-form";
+import {AnyFieldMeta, createFormHook, createFormHookContexts} from "@tanstack/react-form";
 import {Input, Label, YStack, YStackProps} from "tamagui";
 import React from "react";
 
@@ -14,6 +14,16 @@ export const {useAppForm} = createFormHook({
     },
     formComponents: {},
 })
+
+export const getFirstErrorMessageOf = <T, >(fieldMeta: T) => {
+    for (let propertyName in fieldMeta) {
+        const property = fieldMeta[propertyName as keyof T] as AnyFieldMeta;
+        if (property.errors.length >= 1) {
+            return property.errors.at(0).message;
+        }
+    }
+    return '';
+}
 
 type TextFieldProps = {
     label: string,
