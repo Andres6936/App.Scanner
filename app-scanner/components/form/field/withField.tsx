@@ -1,5 +1,5 @@
 import {createFormHook, createFormHookContexts} from "@tanstack/react-form";
-import {Input, Label, YStack} from "tamagui";
+import {Input, Label, YStack, YStackProps} from "tamagui";
 import React from "react";
 
 export const {fieldContext, formContext, useFieldContext} =
@@ -17,12 +17,13 @@ export const {useAppForm} = createFormHook({
 
 type TextFieldProps = {
     label: string,
+    propsRoot?: YStackProps,
 }
 
 export function TextField(props: TextFieldProps) {
     const field = useFieldContext<string>()
     return (
-        <YStack>
+        <YStack {...props.propsRoot}>
             <Label htmlFor={field.name} lineHeight="$2">
                 {props.label}
             </Label>
@@ -45,12 +46,13 @@ const getIntegerValueOf = (value: string) => {
 
 type NumericFieldProps = {
     label: string,
+    propsRoot?: YStackProps,
 }
 
 export function NumericField(props: NumericFieldProps) {
     const field = useFieldContext<number>()
     return (
-        <YStack flex={1}>
+        <YStack {...props.propsRoot}>
             <Label htmlFor={field.name} lineHeight="$2">
                 {props.label}
             </Label>

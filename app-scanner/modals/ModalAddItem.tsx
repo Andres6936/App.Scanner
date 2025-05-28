@@ -77,12 +77,16 @@ export default NiceModal.create((props: Props) => {
                                     <XStack gap="$2">
                                         <form.AppField
                                             name="SKU"
-                                            children={(field) => <field.TextField label="SKU"/>}
+                                            children={(field) => (
+                                                <field.TextField propsRoot={{flex: 1}} label="SKU"/>
+                                            )}
                                         />
 
                                         <form.AppField
                                             name="TypeBarCode"
-                                            children={(field) => <field.TextField label="Tipo"/>}
+                                            children={(field) => (
+                                                <field.TextField propsRoot={{flex: 1}} label="Tipo"/>
+                                            )}
                                         />
                                     </XStack>
                                 )}
@@ -95,12 +99,16 @@ export default NiceModal.create((props: Props) => {
                                 <XStack gap="$2">
                                     <form.AppField
                                         name="Value"
-                                        children={(field) => <field.NumericField label="Valor"/>}
+                                        children={(field) => (
+                                            <field.NumericField propsRoot={{flex: 1}} label="Valor"/>
+                                        )}
                                     />
 
                                     <form.AppField
                                         name="Amount"
-                                        children={(field) => <field.NumericField label="Cantidad"/>}
+                                        children={(field) => (
+                                            <field.NumericField propsRoot={{flex: 1}} label="Cantidad"/>
+                                        )}
                                     />
                                 </XStack>
                             </YStack>
