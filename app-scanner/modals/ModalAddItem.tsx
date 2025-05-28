@@ -3,8 +3,18 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Modal, StyleSheet} from "react-native";
 import NiceModal, {useModal} from "@ebay/nice-modal-react";
 import {Button, Form, H6, Paragraph, Spinner, View, XStack, YStack} from "tamagui";
+import * as v from 'valibot';
+
 import {useAppForm} from "@/components/form/field/withField";
 
+
+const ProductSchema = v.object({
+    SKU: v.pipe(v.string(), v.minLength(6), v.maxLength(100)),
+    TypeBarCode: v.string(),
+    Name: v.pipe(v.string(), v.minLength(3), v.maxLength(100)),
+    Value: v.pipe(v.number(), v.minValue(0)),
+    Amount: v.pipe(v.number(), v.minValue(1)),
+})
 
 const defaultValues = {
     SKU: "",
@@ -30,6 +40,9 @@ export default NiceModal.create((props: Props) => {
             ...defaultValues,
             SKU: props.defaultValues.SKU,
             TypeBarCode: props.defaultValues.TypeBarCode,
+        },
+        validators: {
+            onChange: ProductSchema,
         },
         onSubmit: async ({value}) => {
             const cleanUp = async () => {
