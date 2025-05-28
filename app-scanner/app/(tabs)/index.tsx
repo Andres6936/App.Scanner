@@ -37,8 +37,8 @@ export default function HomeScreen() {
                     },
                     onConfirm: async ({values}) => {
                         await db.insert(ProductsTable).values({
-                            SKU: scanningResult.data,
-                            TypeBarCode: scanningResult.type,
+                            SKU: values.SKU,
+                            TypeBarCode: values.TypeBarCode,
                             Name: values.Name,
                             Amount: values.Amount,
                             Value: values.Value,
@@ -58,13 +58,13 @@ export default function HomeScreen() {
     const onAdd = async () => {
         await NiceModal.show(ModalAddItem, {
             defaultValues: {
-                SKU: "AAA",
-                TypeBarCode: "AAA",
+                SKU: "",
+                TypeBarCode: "",
             },
             onConfirm: async ({values}) => {
                 await db.insert(ProductsTable).values({
-                    SKU: "AAA",
-                    TypeBarCode: "AAA",
+                    SKU: values.SKU,
+                    TypeBarCode: values.TypeBarCode,
                     Name: values.Name,
                     Amount: values.Amount,
                     Value: values.Value,

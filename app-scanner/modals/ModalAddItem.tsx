@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Modal, StyleSheet} from "react-native";
 import NiceModal, {useModal} from "@ebay/nice-modal-react";
@@ -43,6 +43,10 @@ export default NiceModal.create((props: Props) => {
         }
     }))
 
+    const isManualRegister = useMemo(() => {
+        return props.defaultValues.SKU.length === 0 && props.defaultValues.TypeBarCode.length === 0;
+    }, [props.defaultValues])
+
     return (
         <SafeAreaView style={[styles.centeredView, StyleSheet.absoluteFill, {backgroundColor: 'rgba(0,0,0,0.5)'}]}>
             <Modal
@@ -61,10 +65,28 @@ export default NiceModal.create((props: Props) => {
                         >
                             <H6>Añadir nuevo item</H6>
 
-                            <Paragraph size="$1">SKU: {form.state.values.SKU} -
-                                Tipo: {form.state.values.TypeBarCode}</Paragraph>
+                            {!isManualRegister && (
+                                <Paragraph size="$1">
+                                    SKU: {form.state.values.SKU} -
+                                    Tipo: {form.state.values.TypeBarCode}
+                                </Paragraph>
+                            )}
 
                             <YStack minWidth="100%" padding="$2" gap="$2">
+                                {isManualRegister && (
+                                    <XStack gap="$2">
+                                        <form.AppField
+                                            name="SKU"
+                                            children={(field) => <field.TextField label="SKU"/>}
+                                        />
+
+                                        <form.AppField
+                                            name="TypeBarCode"
+                                            children={(field) => <field.TextField label="Tipo"/>}
+                                        />
+                                    </XStack>
+                                )}
+
                                 <form.AppField
                                     name="Name"
                                     children={(field) => <field.TextField label="Nombre"/>}
