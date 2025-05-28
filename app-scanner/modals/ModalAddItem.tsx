@@ -3,7 +3,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Alert, Modal, StyleSheet} from "react-native";
 import NiceModal, {useModal} from "@ebay/nice-modal-react";
 import {Button, Form, H6, Input, Label, Spinner, View, XStack, YStack} from "tamagui";
-import {useForm} from "@tanstack/react-form";
+import {useAppForm} from "@/components/form/field/withField";
 
 const getIntegerValueOf = (value: string) => {
     const parsed = value.replace(/[^0-9]/g, '');
@@ -24,7 +24,7 @@ export type Props = {
 export default NiceModal.create((props: Props) => {
     // Use a hook to manage the modal state
     const modal = useModal();
-    const form = useForm(({
+    const form = useAppForm(({
         defaultValues: defaultValues,
         onSubmit: async ({value}) => {
             const cleanUp = async () => {
@@ -60,24 +60,10 @@ export default NiceModal.create((props: Props) => {
                             <H6>Añadir nuevo item</H6>
 
                             <YStack minWidth="100%" padding="$2" gap="$2">
-                                <form.Field
+                                <form.AppField
                                     name="Name"
-                                    children={(field) => (
-                                        <YStack>
-                                            <Label htmlFor={field.name} lineHeight="$2">
-                                                Nombre
-                                            </Label>
-                                            <Input
-                                                width="100%"
-                                                id={field.name}
-                                                value={field.state.value}
-                                                onBlur={field.handleBlur}
-                                                onChangeText={(value) => field.handleChange(value)}
-                                            />
-                                        </YStack>
-                                    )}
+                                    children={(field) => <field.TextField label="Nombre"/>}
                                 />
-
 
                                 <XStack gap="$2">
                                     <form.Field
