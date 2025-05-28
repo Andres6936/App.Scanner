@@ -38,6 +38,8 @@ export function TextField(props: TextFieldProps) {
                 {props.label}
             </Label>
             <Input
+                borderWidth={1}
+                borderColor={field.getMeta().errors.length >= 1 ? '$red10' : '$borderColor'}
                 width="100%"
                 id={field.name}
                 value={field.state.value}
