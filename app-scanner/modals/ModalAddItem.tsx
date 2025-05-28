@@ -1,6 +1,6 @@
 import React from "react";
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Alert, Modal, StyleSheet} from "react-native";
+import {Modal, StyleSheet} from "react-native";
 import NiceModal, {useModal} from "@ebay/nice-modal-react";
 import {Button, Form, H6, Paragraph, Spinner, View, XStack, YStack} from "tamagui";
 import {useAppForm} from "@/components/form/field/withField";
@@ -49,10 +49,7 @@ export default NiceModal.create((props: Props) => {
                 animationType="slide"
                 transparent={true}
                 visible={modal.visible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    modal.remove();
-                }}>
+            >
                 <View style={styles.centeredView}>
                     <View bg="$background" style={styles.modalView}>
                         <Form
