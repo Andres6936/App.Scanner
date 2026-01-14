@@ -1,7 +1,8 @@
-import { createTamagui } from "@tamagui/core";
-import { defaultConfig } from "@tamagui/config/v4";
+import { createTamagui } from '@tamagui/core'
+import { defaultConfig } from '@tamagui/config/v4'
 
-export const config = createTamagui(defaultConfig)
+// you usually export this from a tamagui.config.ts file
+const config = createTamagui(defaultConfig)
 
 type Conf = typeof config
 

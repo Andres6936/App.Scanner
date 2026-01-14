@@ -1,6 +1,6 @@
 import { Text, useColorScheme, View } from "react-native";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { TamaguiProvider } from '@tamagui/core';
+import { TamaguiProvider } from 'tamagui';
 import { useFonts } from 'expo-font';
 import { Stack as NavigationStack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
