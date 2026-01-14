@@ -7,6 +7,6 @@ config.resolver.sourceExts.push('sql');
 config.resolver.unstable_enablePackageExports = false;
 
 module.exports = withTamagui(config, {
-    components: ['tamagui', '@tamagui/lucide-icons'],
+    components: ['tamagui'],
     config: './tamagui.config.ts',
 });

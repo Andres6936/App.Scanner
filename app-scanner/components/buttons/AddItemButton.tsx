@@ -1,5 +1,5 @@
-import {Button, ButtonProps} from "tamagui";
-import {Plus} from "@tamagui/lucide-icons";
+import { Button, ButtonProps } from "tamagui";
+import { Plus } from "lucide-react-native";
 
 type Props = ButtonProps;
 
