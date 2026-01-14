@@ -1,22 +1,22 @@
-import {Text, View} from "react-native";
-import {DarkTheme, DefaultTheme, ThemeProvider} from '@react-navigation/native';
-import {PortalProvider, TamaguiProvider} from 'tamagui';
-import {useFonts} from 'expo-font';
-import {Stack} from 'expo-router';
+import { Text, View } from "react-native";
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { PortalProvider, TamaguiProvider } from 'tamagui';
+import { useFonts } from 'expo-font';
+import { Stack as NavigationStack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import {StatusBar} from 'expo-status-bar';
-import {useEffect} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
-import {useDrizzleStudio} from "expo-drizzle-studio-plugin";
-import {useMigrations} from 'drizzle-orm/expo-sqlite/migrator';
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import NiceModal from "@ebay/nice-modal-react";
-import {SafeAreaProvider} from "react-native-safe-area-context";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import {useColorScheme} from '@/hooks/useColorScheme';
-import {config} from "@/tamagui.config";
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { config } from "@/tamagui.config";
 import migrations from '@/drizzle/migrations';
-import {db, scannerConnection} from "@/services/sqlite/createClient";
+import { db, scannerConnection } from "@/services/sqlite/createClient";
 
 // Create a client
 const queryClient = new QueryClient()
@@ -65,10 +65,10 @@ export default function RootLayout() {
                     <PortalProvider shouldAddRootHost>
                         <NiceModal.Provider>
                             <QueryClientProvider client={queryClient}>
-                                <Stack>
-                                    <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-                                    <Stack.Screen name="+not-found"/>
-                                </Stack>
+                                <NavigationStack>
+                                    <NavigationStack.Screen name="(tabs)" options={{headerShown: false}}/>
+                                    <NavigationStack.Screen name="+not-found"/>
+                                </NavigationStack>
                                 <StatusBar style="auto"/>
                             </QueryClientProvider>
                         </NiceModal.Provider>
