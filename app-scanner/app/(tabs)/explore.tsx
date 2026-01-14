@@ -1,20 +1,18 @@
-import {StyleSheet} from 'react-native';
-import {eq} from "drizzle-orm";
-import {Button, Paragraph, XStack, YStack} from "tamagui";
-import NiceModal from "@ebay/nice-modal-react";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import { StyleSheet } from 'react-native';
+import { eq } from "drizzle-orm";
+import { Button, Paragraph, XStack, YStack } from "tamagui";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import {ThemedText} from '@/components/ThemedText';
-import {ThemedView} from '@/components/ThemedView';
-import {IconSymbol} from '@/components/ui/IconSymbol';
-import EditProductModal from "@/modals/AlertShowcase";
-import {db} from "@/services/sqlite/createClient";
-import {ProductsTable} from "@/services/sqlite/schema";
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { db } from "@/services/sqlite/createClient";
+import { ProductsTable } from "@/services/sqlite/schema";
 
 export default function TabTwoScreen() {
     const onEditEvent = async () => {
-        await NiceModal.show(EditProductModal, {})
+
     }
 
     return (
