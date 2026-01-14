@@ -1,16 +1,16 @@
-import {useEffect, useState} from "react";
-import {Stack} from 'tamagui'
+import { useEffect, useState } from "react";
+import { View } from 'tamagui'
 import NiceModal from "@ebay/nice-modal-react";
-import {Button, StyleSheet, Text, View} from 'react-native';
-import {BarcodeScanningResult, CameraView, useCameraPermissions} from 'expo-camera';
+import { Button, StyleSheet, Text, View as StyledView } from 'react-native';
+import { BarcodeScanningResult, CameraView, useCameraPermissions } from 'expo-camera';
 
 
-import {useThrottler} from '@/own-pacer/throttler/useThrottler'
-import ModalAddItem, {Props as ModalAddItemProps} from "@/modals/ModalAddItem";
-import {db} from "@/services/sqlite/createClient";
-import {ProductsTable} from "@/services/sqlite/schema";
-import {TypeCurrency} from "@/constants/Types";
-import {ScannerActions} from "@/components/scanner/ScannerActions";
+import { useThrottler } from '@/own-pacer/throttler/useThrottler'
+import ModalAddItem, { Props as ModalAddItemProps } from "@/modals/ModalAddItem";
+import { db } from "@/services/sqlite/createClient";
+import { ProductsTable } from "@/services/sqlite/schema";
+import { TypeCurrency } from "@/constants/Types";
+import { ScannerActions } from "@/components/scanner/ScannerActions";
 
 export default function HomeScreen() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -109,7 +109,7 @@ export default function HomeScreen() {
                 onAdd={onAdd}
             />
             {(scanningResult && enabledScanner) && (
-                <Stack
+                <StyledView
                     position="absolute"
                     left={scanningResult.bounds.origin.y}
                     top={scanningResult.bounds.origin.x}
