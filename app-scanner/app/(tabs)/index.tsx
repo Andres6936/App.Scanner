@@ -10,6 +10,7 @@ import { db } from "@/services/sqlite/createClient";
 import { ProductsTable } from "@/services/sqlite/schema";
 import { TypeCurrency } from "@/constants/Types";
 import { ScannerActions } from "@/components/scanner/ScannerActions";
+import { ShowModalAddItem } from "@/features/scanner/actions/ShowModalAddItem.Action";
 
 export default function HomeScreen() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -54,28 +55,11 @@ export default function HomeScreen() {
         })()
     }, [scanningResult, enabledScanner]);
 
-    const onAdd = async () => {
-        await NiceModal.show(ModalAddItem, {
-            defaultValues: {
-                SKU: "",
-                TypeBarCode: "",
-            },
-            onConfirm: async ({values}) => {
-                await db.insert(ProductsTable).values({
-                    SKU: values.SKU,
-                    TypeBarCode: values.TypeBarCode,
-                    Name: values.Name,
-                    Amount: values.Amount,
-                    Value: values.Value,
-                    Currency: TypeCurrency.COP,
-                })
-            },
-        } satisfies ModalAddItemProps)
-    }
+    const onAdd = async () => await ShowModalAddItem()
 
     if (!permission) {
         // Camera permissions are still loading.
-        return <View />;
+        return <View/>;
     }
 
     if (!permission.granted) {
@@ -83,7 +67,7 @@ export default function HomeScreen() {
         return (
             <View style={styles.container}>
                 <Text style={styles.message}>We need your permission to show the camera</Text>
-                <Button onPress={requestPermission} title="grant permission" />
+                <Button onPress={requestPermission} title="grant permission"/>
             </View>
         );
     }
