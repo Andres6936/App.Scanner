@@ -1,6 +1,7 @@
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { eq } from "drizzle-orm";
-import { ActivityIndicator, Appbar, Button, Card, Text } from "react-native-paper";
+import { ActivityIndicator, Appbar, Card, Divider, Icon, Menu, Text } from "react-native-paper";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -70,6 +71,8 @@ type ItemProps = {
 const Item = (props: ItemProps) => {
     const queryClient = useQueryClient()
 
+    const [showMenu, setShowMenu] = React.useState(false);
+
     const onDelete = async () => {
         await db.delete(ProductsTable).where(eq(ProductsTable.SKU, props.model.SKU))
         queryClient.invalidateQueries({queryKey: ['/products']})
@@ -77,8 +80,8 @@ const Item = (props: ItemProps) => {
 
     return (
         <Card style={{marginBottom: 8}}>
-            <Card.Content>
-                <View style={{justifyContent: "space-between", flexDirection: 'row', opacity: 0.5, marginBottom: 5}}>
+            <Card.Content style={{gap: 4}}>
+                <View style={{justifyContent: "space-between", flexDirection: 'row', opacity: 0.5, marginBottom: 2}}>
                     <View style={{gap: 8, justifyContent: 'space-between', flexDirection: 'row'}}>
                         <Text variant="labelSmall">SKU:</Text>
                         <Text variant="labelSmall">{props.model.SKU}</Text>
@@ -86,8 +89,20 @@ const Item = (props: ItemProps) => {
                     <View style={{gap: 8, justifyContent: 'space-between', flexDirection: 'row'}}>
                         <Text variant="labelSmall">Tipo:</Text>
                         <Text variant="labelSmall">{props.model.TypeBarCode}</Text>
+                        <Menu
+                            visible={showMenu}
+                            onDismiss={() => setShowMenu(false)}
+                            anchor={<Icon source="dots-vertical" size={15}/>}
+                        >
+                            <Menu.Item onPress={onDelete} title="Editar"/>
+                            <Divider/>
+                            <Menu.Item onPress={() => {
+                            }} title="Eliminar"/>
+                        </Menu>
+
                     </View>
                 </View>
+                <Divider/>
                 <View style={{flexDirection: 'row'}}>
                     <View style={{flex: 3}}>
                         <Text variant="labelMedium">Nombre</Text>
@@ -105,10 +120,6 @@ const Item = (props: ItemProps) => {
                     </View>
                 </View>
             </Card.Content>
-            <Card.Actions>
-                <Button onPress={onDelete}>Eliminar</Button>
-                <Button>Editar</Button>
-            </Card.Actions>
         </Card>
     )
 }
