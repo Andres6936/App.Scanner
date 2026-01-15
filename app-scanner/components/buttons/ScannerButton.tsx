@@ -1,12 +1,12 @@
 import { Button, ButtonProps } from "react-native-paper";
 
-type Props = ButtonProps & {
-    isScanning: boolean,
+type Props = Pick<ButtonProps, 'mode' | 'style' | 'onPress'> & {
+    isScanning: boolean
 };
 
 export function ScannerButton(props: Props) {
     return (
-        <Button style={{flex: 1}} {...props}>
+        <Button mode="contained" style={{flex: 1}} {...props}>
             {props.isScanning ? 'Escanenado ...' : 'Escanear'}
         </Button>
     )
