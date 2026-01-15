@@ -80,6 +80,10 @@ const Item = (props: ItemProps) => {
     return (
         <Card style={{marginBottom: 8}}>
             <Card.Content>
+                <View style={{justifyContent: "space-between", flexDirection: 'row', opacity: 0.5, marginBottom: 5}}>
+                    <Text variant="labelSmall">SKU</Text>
+                    <Text variant="labelSmall">{props.model.SKU}</Text>
+                </View>
                 <View style={{flexDirection: 'row'}}>
                     <View style={{flex: 3}}>
                         <Text variant="labelMedium">Nombre</Text>
