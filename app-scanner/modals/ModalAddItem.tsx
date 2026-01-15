@@ -1,11 +1,11 @@
-import React, {useMemo} from "react";
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Modal, StyleSheet} from "react-native";
-import NiceModal, {useModal} from "@ebay/nice-modal-react";
-import {Button, Form, H6, Paragraph, Spinner, View, XStack, YStack} from "tamagui";
+import React, { useMemo } from "react";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Modal, StyleSheet, View } from "react-native";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
+import { Button, Text, useTheme } from "react-native-paper";
 import * as v from 'valibot';
 
-import {useAppForm} from "@/components/form/field/withField";
+import { useAppForm } from "@/components/form/field/withField";
 
 
 const ProductSchema = v.object({
@@ -35,6 +35,7 @@ export type Props = {
 export default NiceModal.create((props: Props) => {
     // Use a hook to manage the modal state
     const modal = useModal();
+    const theme = useTheme();
     const form = useAppForm(({
         defaultValues: {
             ...defaultValues,
@@ -68,26 +69,20 @@ export default NiceModal.create((props: Props) => {
                 visible={modal.visible}
             >
                 <View style={styles.centeredView}>
-                    <View bg="$background" style={styles.modalView}>
-                        <Form
-                            alignItems="center"
-                            gap="$2"
-                            onSubmit={() => void form.handleSubmit()}
-                            padding="$4"
-                            minWidth="90%"
-                        >
-                            <H6>Añadir nuevo item</H6>
+                    <View style={[styles.modalView, {backgroundColor: theme.colors.surface}]}>
+                        <View style={{alignItems: 'center', gap: 8, padding: 16, minWidth: '90%'}}>
+                            <Text variant="headlineSmall">Añadir nuevo item</Text>
 
                             {!isManualRegister && (
-                                <Paragraph size="$1">
+                                <Text variant="bodySmall">
                                     SKU: {form.state.values.SKU} -
                                     Tipo: {form.state.values.TypeBarCode}
-                                </Paragraph>
+                                </Text>
                             )}
 
-                            <YStack minWidth="100%" padding="$2" gap="$2">
+                            <View style={{minWidth: "100%", padding: 8, gap: 8}}>
                                 {isManualRegister && (
-                                    <XStack gap="$2">
+                                    <View style={{flexDirection: 'row', gap: 8}}>
                                         <form.AppField
                                             name="SKU"
                                             children={(field) => (
@@ -101,7 +96,7 @@ export default NiceModal.create((props: Props) => {
                                                 <field.TextField propsRoot={{flex: 1}} label="Tipo"/>
                                             )}
                                         />
-                                    </XStack>
+                                    </View>
                                 )}
 
                                 <form.AppField
@@ -109,7 +104,7 @@ export default NiceModal.create((props: Props) => {
                                     children={(field) => <field.TextField label="Nombre"/>}
                                 />
 
-                                <XStack gap="$2">
+                                <View style={{flexDirection: 'row', gap: 8}}>
                                     <form.AppField
                                         name="Value"
                                         children={(field) => (
@@ -123,16 +118,17 @@ export default NiceModal.create((props: Props) => {
                                             <field.NumericField propsRoot={{flex: 1}} label="Cantidad"/>
                                         )}
                                     />
-                                </XStack>
-                            </YStack>
+                                </View>
+                            </View>
 
                             <form.AppForm>
                                 <form.FirstErrorMessage/>
                             </form.AppForm>
 
-                            <XStack mt="$4">
+                            <View style={{flexDirection: 'row', marginTop: 16, gap: 8}}>
                                 <Button
-                                    flex={1}
+                                    mode="outlined"
+                                    style={{flex: 1}}
                                     onPress={() => {
                                         modal.reject();
                                         modal.remove();
@@ -141,19 +137,20 @@ export default NiceModal.create((props: Props) => {
                                 </Button>
 
                                 <form.Subscribe
-                                    selector={(state) => [state.canSubmit, state.isSubmitted]}
-                                    children={([canSubmit, isSubmitted]) => (
-                                        <Form.Trigger asChild disabled={!canSubmit || isSubmitted}>
-                                            <Button
-                                                flex={1}
-                                                icon={isSubmitted ? () => <Spinner/> : undefined}>
-                                                Confirmar
-                                            </Button>
-                                        </Form.Trigger>
+                                    selector={(state) => [state.canSubmit, state.isSubmitting]}
+                                    children={([canSubmit, isSubmitting]) => (
+                                        <Button
+                                            mode="contained"
+                                            style={{flex: 1}}
+                                            disabled={!canSubmit || isSubmitting}
+                                            loading={isSubmitting}
+                                            onPress={() => void form.handleSubmit()}>
+                                            Confirmar
+                                        </Button>
                                     )}
                                 />
-                            </XStack>
-                        </Form>
+                            </View>
+                        </View>
                     </View>
                 </View>
             </Modal>

@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { eq } from "drizzle-orm";
-import { Button, Paragraph, XStack, YStack } from "tamagui";
+import { ActivityIndicator, Button, Card, Text } from "react-native-paper";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -31,8 +31,8 @@ export default function TabTwoScreen() {
             </ThemedView>
 
             <Table/>
-            <Button onPress={onEditEvent}>
-                <Paragraph>Editar</Paragraph>
+            <Button mode="contained" onPress={onEditEvent} style={{marginTop: 16}}>
+                Editar
             </Button>
         </ParallaxScrollView>
     );
@@ -46,22 +46,22 @@ const Table = () => {
 
     if (isLoading) {
         return (
-            <Paragraph>Cargando ...</Paragraph>
+            <ActivityIndicator animating={true}/>
         )
     }
 
     if (!data) {
         return (
-            <Paragraph>No hay datos</Paragraph>
+            <Text>No hay datos</Text>
         )
     }
 
     return (
-        <YStack gap="$2">
+        <View style={{gap: 8}}>
             {data.map(it => (
                 <Item key={it.SKU} model={it}/>
             ))}
-        </YStack>
+        </View>
     )
 }
 
@@ -78,32 +78,30 @@ const Item = (props: ItemProps) => {
     }
 
     return (
-        <YStack px="$2" rounded="$2" borderWidth={1} borderColor="$borderColor">
-            <XStack>
-                <YStack flex={3}>
-                    <Paragraph>Nombre</Paragraph>
-                    <Paragraph>{props.model.Name}</Paragraph>
-                </YStack>
-                <XStack flex={2} justify="flex-end">
-                    <YStack flex={1}>
-                        <Paragraph>Valor</Paragraph>
-                        <Paragraph textAlign="center" textWrap="nowrap">{props.model.Value} COP</Paragraph>
-                    </YStack>
-                    <YStack flex={1}>
-                        <Paragraph>Cantidad</Paragraph>
-                        <Paragraph textAlign="center">{props.model.Amount}</Paragraph>
-                    </YStack>
-                </XStack>
-            </XStack>
-            <XStack>
-                <Button onPress={onDelete}>
-                    Eliminar
-                </Button>
-                <Button>
-                    Editar
-                </Button>
-            </XStack>
-        </YStack>
+        <Card style={{marginBottom: 8}}>
+            <Card.Content>
+                <View style={{flexDirection: 'row'}}>
+                    <View style={{flex: 3}}>
+                        <Text variant="labelMedium">Nombre</Text>
+                        <Text variant="bodyLarge">{props.model.Name}</Text>
+                    </View>
+                    <View style={{flex: 2, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                        <View style={{flex: 1}}>
+                            <Text variant="labelMedium">Valor</Text>
+                            <Text variant="bodyMedium" style={{textAlign: 'center'}}>{props.model.Value} COP</Text>
+                        </View>
+                        <View style={{flex: 1}}>
+                            <Text variant="labelMedium">Cantidad</Text>
+                            <Text variant="bodyMedium" style={{textAlign: 'center'}}>{props.model.Amount}</Text>
+                        </View>
+                    </View>
+                </View>
+            </Card.Content>
+            <Card.Actions>
+                <Button onPress={onDelete}>Eliminar</Button>
+                <Button>Editar</Button>
+            </Card.Actions>
+        </Card>
     )
 }
 

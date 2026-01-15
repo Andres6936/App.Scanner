@@ -1,5 +1,6 @@
-import {AnyFieldMeta, createFormHook, createFormHookContexts} from "@tanstack/react-form";
-import {Input, Label, Paragraph, YStack, YStackProps} from "tamagui";
+import { AnyFieldMeta, createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { HelperText, TextInput } from "react-native-paper";
+import { View, ViewProps } from "react-native";
 import React from "react";
 
 export const {fieldContext, formContext, useFieldContext, useFormContext} =
@@ -19,26 +20,23 @@ export const {useAppForm} = createFormHook({
 
 type TextFieldProps = {
     label: string,
-    propsRoot?: YStackProps,
+    propsRoot?: ViewProps,
 }
 
 export function TextField(props: TextFieldProps) {
     const field = useFieldContext<string>()
+    const error = field.getMeta().errors.length >= 1;
     return (
-        <YStack {...props.propsRoot}>
-            <Label htmlFor={field.name} lineHeight="$2">
-                {props.label}
-            </Label>
-            <Input
-                borderWidth={1}
-                borderColor={field.getMeta().errors.length >= 1 ? '$red10' : '$borderColor'}
-                width="100%"
-                id={field.name}
+        <View {...props.propsRoot}>
+            <TextInput
+                label={props.label}
+                error={error}
+                mode="outlined"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChangeText={(value) => field.handleChange(value)}
             />
-        </YStack>
+        </View>
     )
 }
 
@@ -50,26 +48,23 @@ const getIntegerValueOf = (value: string) => {
 
 type NumericFieldProps = {
     label: string,
-    propsRoot?: YStackProps,
+    propsRoot?: ViewProps,
 }
 
 export function NumericField(props: NumericFieldProps) {
     const field = useFieldContext<number>()
     return (
-        <YStack {...props.propsRoot}>
-            <Label htmlFor={field.name} lineHeight="$2">
-                {props.label}
-            </Label>
-            <Input
-                width="100%"
-                id={field.name}
+        <View {...props.propsRoot}>
+            <TextInput
+                label={props.label}
+                mode="outlined"
                 inputMode='numeric'
                 keyboardType='numeric'
                 value={field.state.value.toString()}
                 onBlur={field.handleBlur}
                 onChangeText={(value) => field.handleChange(getIntegerValueOf(value))}
             />
-        </YStack>
+        </View>
     )
 }
 
@@ -90,7 +85,7 @@ export function FirstErrorMessage() {
             selector={(state) => [state.fieldMeta]}
             children={([fieldMeta]) => {
                 const message = getFirstErrorMessageOf(fieldMeta);
-                return message ? <Paragraph>{message}</Paragraph> : null;
+                return message ? <HelperText type="error" visible={true}>{message}</HelperText> : null;
             }}
         />
     )

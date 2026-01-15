@@ -1,7 +1,7 @@
-import {XStack} from "tamagui";
+import { View } from "react-native";
 
-import {ScannerButton} from "@/components/buttons/ScannerButton";
-import {AddItemButton} from "@/components/buttons/AddItemButton";
+import { ScannerButton } from "@/components/buttons/ScannerButton";
+import { AddItemButton } from "@/components/buttons/AddItemButton";
 
 type Props = {
     isScanning: boolean,
@@ -12,7 +12,7 @@ type Props = {
 
 export function ScannerActions(props: Props) {
     return (
-        <XStack position="absolute" bottom={10} left={10} right={10} gap="$2">
+        <View style={{position: "absolute", bottom: 10, left: 10, right: 10, flexDirection: 'row', gap: 8}}>
             <ScannerButton
                 isScanning={props.isScanning}
                 onPress={() => {
@@ -23,6 +23,6 @@ export function ScannerActions(props: Props) {
                     }
                 }}/>
             <AddItemButton onPress={props.onAdd}/>
-        </XStack>
+        </View>
     )
 }
