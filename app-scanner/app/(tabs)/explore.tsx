@@ -1,11 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import { eq } from "drizzle-orm";
-import { ActivityIndicator, Button, Card, Text } from "react-native-paper";
+import { ActivityIndicator, Appbar, Button, Card, Text } from "react-native-paper";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { db } from "@/services/sqlite/createClient";
 import { ProductsTable } from "@/services/sqlite/schema";
@@ -26,14 +24,14 @@ export default function TabTwoScreen() {
                     style={styles.headerImage}
                 />
             }>
-            <ThemedView style={styles.titleContainer}>
-                <ThemedText type="title">Productos</ThemedText>
-            </ThemedView>
-
+            <Appbar.Header mode='small' statusBarHeight={0} style={{backgroundColor: 'transparent'}}>
+                <Appbar.Content title="Productos"/>
+                <Appbar.Action icon="magnify" onPress={() => {
+                }}/>
+                <Appbar.Action icon="plus" onPress={() => {
+                }}/>
+            </Appbar.Header>
             <Table/>
-            <Button mode="contained" onPress={onEditEvent} style={{marginTop: 16}}>
-                Editar
-            </Button>
         </ParallaxScrollView>
     );
 }
