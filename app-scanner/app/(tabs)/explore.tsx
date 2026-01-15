@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { eq } from "drizzle-orm";
 import { ActivityIndicator, Appbar, Card, Divider, Icon, Menu, Text } from "react-native-paper";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -78,6 +78,12 @@ const Item = (props: ItemProps) => {
         queryClient.invalidateQueries({queryKey: ['/products']})
     }
 
+    const MenuButtonAction = useMemo(() => (
+        <TouchableOpacity onPress={() => setShowMenu(true)}>
+            <Icon source="dots-vertical" size={15}/>
+        </TouchableOpacity>
+    ), [])
+
     return (
         <Card style={{marginBottom: 8}}>
             <Card.Content style={{gap: 4}}>
@@ -92,12 +98,12 @@ const Item = (props: ItemProps) => {
                         <Menu
                             visible={showMenu}
                             onDismiss={() => setShowMenu(false)}
-                            anchor={<Icon source="dots-vertical" size={15}/>}
+                            anchor={MenuButtonAction}
                         >
-                            <Menu.Item onPress={onDelete} title="Editar"/>
-                            <Divider/>
                             <Menu.Item onPress={() => {
-                            }} title="Eliminar"/>
+                            }} title="Editar"/>
+                            <Divider/>
+                            <Menu.Item onPress={onDelete} title="Eliminar"/>
                         </Menu>
 
                     </View>
