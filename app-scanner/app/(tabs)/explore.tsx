@@ -96,6 +96,7 @@ const Item = (props: ItemProps) => {
                         <Text variant="labelSmall">Tipo:</Text>
                         <Text variant="labelSmall">{props.model.TypeBarCode}</Text>
                         <Menu
+                            key={String(showMenu)}
                             visible={showMenu}
                             onDismiss={() => setShowMenu(false)}
                             anchor={MenuButtonAction}
