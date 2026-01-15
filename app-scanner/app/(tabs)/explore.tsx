@@ -81,8 +81,14 @@ const Item = (props: ItemProps) => {
         <Card style={{marginBottom: 8}}>
             <Card.Content>
                 <View style={{justifyContent: "space-between", flexDirection: 'row', opacity: 0.5, marginBottom: 5}}>
-                    <Text variant="labelSmall">SKU</Text>
-                    <Text variant="labelSmall">{props.model.SKU}</Text>
+                    <View style={{gap: 8, justifyContent: 'space-between', flexDirection: 'row'}}>
+                        <Text variant="labelSmall">SKU:</Text>
+                        <Text variant="labelSmall">{props.model.SKU}</Text>
+                    </View>
+                    <View style={{gap: 8, justifyContent: 'space-between', flexDirection: 'row'}}>
+                        <Text variant="labelSmall">Tipo:</Text>
+                        <Text variant="labelSmall">{props.model.TypeBarCode}</Text>
+                    </View>
                 </View>
                 <View style={{flexDirection: 'row'}}>
                     <View style={{flex: 3}}>
