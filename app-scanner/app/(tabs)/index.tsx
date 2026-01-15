@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { View } from 'tamagui'
 import NiceModal from "@ebay/nice-modal-react";
-import { Button, StyleSheet, Text, View as StyledView } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { BarcodeScanningResult, CameraView, useCameraPermissions } from 'expo-camera';
 
 
@@ -109,16 +108,18 @@ export default function HomeScreen() {
                 onAdd={onAdd}
             />
             {(scanningResult && enabledScanner) && (
-                <StyledView
-                    position="absolute"
-                    left={scanningResult.bounds.origin.y}
-                    top={scanningResult.bounds.origin.x}
-                    width={scanningResult.bounds.size.width}
-                    height={scanningResult.bounds.size.height}
-                    backgroundColor="transparent"
-                    borderColor="yellow"
-                    borderWidth={1}
-                    borderRadius="$4"
+                <View
+                    style={{
+                        position: 'absolute',
+                        left: scanningResult.bounds.origin.y,
+                        top: scanningResult.bounds.origin.x,
+                        width: scanningResult.bounds.size.width,
+                        height: scanningResult.bounds.size.height,
+                        backgroundColor: 'transparent',
+                        borderColor: 'yellow',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                    }}
                 />
             )}
         </View>

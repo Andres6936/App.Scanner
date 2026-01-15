@@ -1,18 +1,20 @@
+import { useEffect } from 'react';
 import { Text, useColorScheme, View } from "react-native";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { TamaguiProvider } from 'tamagui';
 import { useFonts } from 'expo-font';
 import { Stack as NavigationStack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
-import NiceModal from "@ebay/nice-modal-react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { config } from "@/tamagui.config";
+import { PaperProvider } from "react-native-paper";
+
+import * as SplashScreen from 'expo-splash-screen';
+import NiceModal from "@ebay/nice-modal-react";
+
+import 'react-native-reanimated';
+
 import migrations from '@/drizzle/migrations';
 import { db, scannerConnection } from "@/services/sqlite/createClient";
 
@@ -58,7 +60,7 @@ export default function RootLayout() {
 
     return (
         <SafeAreaProvider>
-            <TamaguiProvider config={config} defaultTheme={colorScheme || 'light' as const}>
+            <PaperProvider>
                 <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
                     <NiceModal.Provider>
                         <QueryClientProvider client={queryClient}>
@@ -70,7 +72,7 @@ export default function RootLayout() {
                         </QueryClientProvider>
                     </NiceModal.Provider>
                 </ThemeProvider>
-            </TamaguiProvider>
+            </PaperProvider>
         </SafeAreaProvider>
     );
 }

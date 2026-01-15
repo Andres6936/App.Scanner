@@ -8,6 +8,11 @@ module.exports = function (api) {
                 {"extensions": [".sql"]}
             ],
             ["react-native-worklets/plugin"],
-        ]
+        ],
+        env: {
+            production: {
+                plugins: ['react-native-paper/babel'],
+            },
+        },
     };
 };
