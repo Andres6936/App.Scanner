@@ -1,4 +1,4 @@
-import {Button, ButtonProps} from "tamagui";
+import { Button, ButtonProps } from "react-native-paper";
 
 type Props = ButtonProps & {
     isScanning: boolean,
@@ -6,7 +6,7 @@ type Props = ButtonProps & {
 
 export function ScannerButton(props: Props) {
     return (
-        <Button flex={1} theme='accent' {...props}>
+        <Button style={{flex: 1}} {...props}>
             {props.isScanning ? 'Escanenado ...' : 'Escanear'}
         </Button>
     )

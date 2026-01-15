@@ -1,11 +1,11 @@
-import { Button, ButtonProps } from "tamagui";
+import { Button, ButtonProps } from "react-native-paper";
 import { Plus } from "lucide-react-native";
 
 type Props = ButtonProps;
 
 export function AddItemButton(props: Props) {
     return (
-        <Button theme='accent' {...props}>
+        <Button {...props}>
             <Plus/>
         </Button>
     )
