@@ -8,7 +8,7 @@ import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PaperProvider } from "react-native-paper";
+import { PaperProvider, Portal } from "react-native-paper";
 
 import * as SplashScreen from 'expo-splash-screen';
 import NiceModal from "@ebay/nice-modal-react";
@@ -62,15 +62,17 @@ export default function RootLayout() {
         <SafeAreaProvider>
             <PaperProvider>
                 <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                    <NiceModal.Provider>
-                        <QueryClientProvider client={queryClient}>
-                            <NavigationStack>
-                                <NavigationStack.Screen name="(tabs)" options={{headerShown: false}}/>
-                                <NavigationStack.Screen name="+not-found"/>
-                            </NavigationStack>
-                            <StatusBar style="auto"/>
-                        </QueryClientProvider>
-                    </NiceModal.Provider>
+                    <Portal>
+                        <NiceModal.Provider>
+                            <QueryClientProvider client={queryClient}>
+                                <NavigationStack>
+                                    <NavigationStack.Screen name="(tabs)" options={{headerShown: false}}/>
+                                    <NavigationStack.Screen name="+not-found"/>
+                                </NavigationStack>
+                                <StatusBar style="auto"/>
+                            </QueryClientProvider>
+                        </NiceModal.Provider>
+                    </Portal>
                 </ThemeProvider>
             </PaperProvider>
         </SafeAreaProvider>

@@ -27,16 +27,14 @@ export function TextField(props: TextFieldProps) {
     const field = useFieldContext<string>()
     const error = field.getMeta().errors.length >= 1;
     return (
-        <View {...props.propsRoot}>
-            <TextInput
-                label={props.label}
-                error={error}
-                mode="outlined"
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChangeText={(value) => field.handleChange(value)}
-            />
-        </View>
+        <TextInput
+            label={props.label}
+            error={error}
+            mode="outlined"
+            value={field.state.value}
+            onBlur={field.handleBlur}
+            onChangeText={(value) => field.handleChange(value)}
+        />
     )
 }
 
