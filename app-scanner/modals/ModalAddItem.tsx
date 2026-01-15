@@ -62,7 +62,7 @@ export default NiceModal.create((props: Props) => {
 
     return (
         <Modal visible={modal.visible}>
-            <View style={[{backgroundColor: theme.colors.surface}]}>
+            <View style={{marginHorizontal: 15, padding: 8, borderRadius: 12, backgroundColor: theme.colors.surface}}>
                 <View style={{gap: 8, padding: 8}}>
                     <Text variant="headlineSmall">Añadir nuevo item</Text>
 
