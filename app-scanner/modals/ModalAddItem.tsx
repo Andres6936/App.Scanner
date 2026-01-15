@@ -79,14 +79,14 @@ export default NiceModal.create((props: Props) => {
                                 <form.AppField
                                     name="SKU"
                                     children={(field) => (
-                                        <field.TextField label="SKU"/>
+                                        <field.TextField propsRoot={{style: {flex: 1}}} label="SKU"/>
                                     )}
                                 />
 
                                 <form.AppField
                                     name="TypeBarCode"
                                     children={(field) => (
-                                        <field.TextField label="Tipo"/>
+                                        <field.TextField propsRoot={{style: {flex: 1}}} label="Tipo"/>
                                     )}
                                 />
                             </View>
@@ -101,14 +101,14 @@ export default NiceModal.create((props: Props) => {
                             <form.AppField
                                 name="Value"
                                 children={(field) => (
-                                    <field.NumericField label="Valor"/>
+                                    <field.NumericField propsRoot={{style: {flex: 1}}} label="Valor"/>
                                 )}
                             />
 
                             <form.AppField
                                 name="Amount"
                                 children={(field) => (
-                                    <field.NumericField label="Cantidad"/>
+                                    <field.NumericField propsRoot={{style: {flex: 1}}} label="Cantidad"/>
                                 )}
                             />
                         </View>
