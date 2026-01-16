@@ -8,10 +8,10 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { db } from "@/services/sqlite/createClient";
 import { ProductsTable } from "@/services/sqlite/schema";
-import { ShowModalAddItem } from '@/features/scanner/actions/ShowModalAddItem.Action';
+import { useAddItem } from "@/features/scanner/hooks/useAddItem";
 
 export default function TabTwoScreen() {
-    const onAdd = async () => await ShowModalAddItem()
+    const {show: onAddItem} = useAddItem();
 
     return (
         <ParallaxScrollView
@@ -28,7 +28,7 @@ export default function TabTwoScreen() {
                 <Appbar.Content title="Productos"/>
                 <Appbar.Action icon="magnify" onPress={() => {
                 }}/>
-                <Appbar.Action icon="plus" onPress={onAdd}/>
+                <Appbar.Action icon="plus" onPress={onAddItem}/>
             </Appbar.Header>
             <Table/>
         </ParallaxScrollView>

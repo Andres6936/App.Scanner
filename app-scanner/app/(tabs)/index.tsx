@@ -10,9 +10,10 @@ import { db } from "@/services/sqlite/createClient";
 import { ProductsTable } from "@/services/sqlite/schema";
 import { TypeCurrency } from "@/constants/Types";
 import { ScannerActions } from "@/components/scanner/ScannerActions";
-import { ShowModalAddItem } from "@/features/scanner/actions/ShowModalAddItem.Action";
+import { useAddItem } from "@/features/scanner/hooks/useAddItem";
 
 export default function HomeScreen() {
+    const {show: onAddItem} = useAddItem();
     const [permission, requestPermission] = useCameraPermissions();
 
     const [enabledScanner, setEnabledScanner] = useState(false);
@@ -55,8 +56,6 @@ export default function HomeScreen() {
         })()
     }, [scanningResult, enabledScanner]);
 
-    const onAdd = async () => await ShowModalAddItem()
-
     if (!permission) {
         // Camera permissions are still loading.
         return <View/>;
@@ -89,7 +88,7 @@ export default function HomeScreen() {
                     setEnabledScanner(false);
                     setScanningResult(null);
                 }}
-                onAdd={onAdd}
+                onAdd={onAddItem}
             />
             {(scanningResult && enabledScanner) && (
                 <View
